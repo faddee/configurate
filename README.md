@@ -1,6 +1,8 @@
 # Strew
 
-Yet another utility to organize your scattered objects, inspired by the Redux way of working with reducers. This was originally created to maintain large and complex Webpack configs. I don't recommend using this in productions or just because Redux is cool. Therefor it's only built for Node 5+. If use find any other use case or need support for another environment, just create an issue or a pull request.
+Yet another utility to organize your scattered objects, inspired by the Redux way of working with reducers. This was originally created to maintain large and complex configs for e.g. Webpack.
+
+It's not recommend to use this in productions or just because Redux is cool. Therefor it's only built for Node 5+. If use find any other use case or need support for another environment, just create an issue or a pull request.
 
 Install with Npm:
 ```bash
@@ -88,17 +90,6 @@ function reptile(animal, species) {
 
     return current;
   }
-  // { dog: 'rude',
-  //   cat: 'hairy',
-  //   fish: { stonefish: { pretty: false } },
-  //   bird: { alive: 'deafening', dead: 'silent' },
-  //   'blank mamba': 'snake',
-  //   reptile:
-  //    { snake: [ 'blank mamba', 'king kobra' ],
-  //    lizard: [ 'komodo dragon', 'iguana' ] },
-  //   'king kobra': 'snake',
-  //   'komodo dragon': 'lizard',
-  //   iguana: 'lizard' }
 }
 
 const strewed = strew(
@@ -111,5 +102,21 @@ const strewed = strew(
   reptile('lizard', 'komodo dragon'),
   reptile('lizard', 'iguana')
 )(initial);
+
+console.log(strewed);
+// { dog: 'rude',
+//   cat: 'hairy',
+//   fish: { stonefish: { pretty: false } },
+//   bird: { alive: 'deafening', dead: 'silent' },
+//   'blank mamba': 'snake',
+//   reptile:
+//    { snake: [ 'blank mamba', 'king kobra' ],
+//    lizard: [ 'komodo dragon', 'iguana' ] },
+//   'king kobra': 'snake',
+//   'komodo dragon': 'lizard',
+//   iguana: 'lizard' }
+
+console.log(initial);
+// { dog: 'bad' }
 
 ```
