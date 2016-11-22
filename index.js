@@ -5,19 +5,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = strew;
 function get(current) {
+  let value = current;
+
   for (var _len = arguments.length, path = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     path[_key - 1] = arguments[_key];
   }
 
-  path = path.slice();
+  path.every(key => {
+    try {
+      if (Object.prototype.hasOwnProperty.call(value, key)) {
+        value = value[key];
+        return true;
+      }
+    } catch (e) {}
 
-  let key;
-  let property = current;
-  while (property && (key = path.shift())) {
-    property = property[key];
-  }
+    value = undefined;
+    return false;
+  });
 
-  return property;
+  return value;
 }
 
 function set(current) {
@@ -29,24 +35,22 @@ function set(current) {
     return args.reduce((previous, args) => set(previous, ...args), current);
   }
 
-  let value = args.pop();
-  let path = args;
-
-  if (typeof value === 'function') {
-    const original = get(current, path);
-    value = value(original);
-  }
-
-  path = path.slice();
-
+  const value = args.pop();
+  const path = args;
+  let assigned = value;
   let key;
-  let source = value;
+
   while (key = path.pop()) {
-    const target = get(current, ...path);
-    source = Object.assign({}, target, { [key]: source });
+    const source = get(current, ...path);
+
+    if (assigned === value && typeof assigned === 'function') {
+      assigned = value(source);
+    }
+
+    assigned = Object.assign({}, source, { [key]: assigned });
   }
 
-  return source;
+  return assigned;
 };
 
 function strew() {
