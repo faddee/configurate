@@ -35,18 +35,19 @@ function set(current) {
     return args.reduce((previous, args) => set(previous, ...args), current);
   }
 
-  const value = args.pop();
+  let value = args.pop();
   const path = args;
+
+  if (typeof value === 'function') {
+    const original = get(current, ...path);
+    value = value(original);
+  }
+
   let assigned = value;
   let key;
 
   while (key = path.pop()) {
     const source = get(current, ...path);
-
-    if (assigned === value && typeof assigned === 'function') {
-      assigned = value(source);
-    }
-
     assigned = Object.assign({}, source, { [key]: assigned });
   }
 
